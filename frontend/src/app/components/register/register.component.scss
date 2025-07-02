@@ -1,0 +1,50 @@
+.register-container {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 25px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+
+  .form-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .form-box {
+    display: flex;
+    flex-direction: column;
+
+    .form-group {
+      margin-bottom: 15px;
+
+      input,
+      select {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+    }
+
+    .submit-btn {
+      display: block;
+      width: 100%; // ✅ Ensures full width like inputs
+      padding: 10px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #45a049;
+      }
+    }
+  }
+}

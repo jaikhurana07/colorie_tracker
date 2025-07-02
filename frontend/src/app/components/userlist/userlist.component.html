@@ -1,0 +1,54 @@
+<!-- User Table -->
+<div class="mid-container">
+  <div class="container">
+    <div class="title-row">
+      <h1 class="title">User List</h1>
+    </div>
+    <div class="user-list">
+      <table class="dcf-table dcf-table-responsive dcf-table-bordered dcf-table-striped dcf-w-100%">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Weight</th>
+            <th>Height</th>
+            <th>Gender</th>
+            <th>Age</th>
+            <th>BMR</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>{{ user.name }}</td>
+            <td>{{ user.weight }} kg</td>
+            <td>{{ user.height }} cm</td>
+            <td>{{ user.gender }}</td>
+            <td>{{ user.age }}</td>
+            <td><b>{{ user.bmr }}</b></td>
+            <td>
+              <div class="btn-set">
+                <button class="btn-secondary" (click)="viewUser(user._id)">View</button>
+                <button class="btn-primary" (click)="openAddEntry(user._id)">Add Data</button>
+                <button class="btn-danger" (click)="deleteUser(user._id)">Delete</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Add Entry Modal -->
+<!-- Add Entry Modal -->
+
+<div class="modal-overlay" *ngIf="showModal">
+<app-add-entry-modal
+  [userId]="selectedUserId"
+  [show]="showModal"
+  (close)="closeModal()"
+  (entrySaved)="refreshData()"
+></app-add-entry-modal>
+</div>
+
+

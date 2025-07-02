@@ -1,0 +1,38 @@
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: #fff; // or your preferred header color
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+app-footer {
+  
+  margin-top: auto;
+  background: #151515;
+  color: white;
+  text-align: center;
+
+}
+
+.main-content {
+ 
+  margin-top: 70px; // equal to header height
+  
+  overflow: auto;
+}

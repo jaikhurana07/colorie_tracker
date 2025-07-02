@@ -1,0 +1,105 @@
+<div class="modal-overlay" *ngIf="show">
+  <div class="modal-content add-data-modal">
+    <div class="modal-header">
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeTab === 'food'" (click)="activeTab = 'food'">Add Food</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeTab === 'activity'" (click)="activeTab = 'activity'">Add Activity</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="modal-body">
+      <!-- 🔹 Food Form -->
+      <div *ngIf="activeTab === 'food'">
+        <div class="input-field">
+          <label>Select Date</label>
+          <input type="date" [(ngModel)]="entryDate" />
+        </div>
+
+        <div class="input-field">
+          <label>Search Food</label>
+          <input type="text" [(ngModel)]="foodSearchTerm" (input)="searchFoods()" />
+        </div>
+
+        <div class="input-field">
+          <label>Select Food</label>
+          <select [(ngModel)]="foodForm.foodId" (change)="onFoodChange()">
+            <option *ngFor="let food of foodList" [value]="food._id">{{ food.name }}</option>
+          </select>
+        </div>
+
+        <div class="input-field">
+          <label>Meal Type</label>
+          <select [(ngModel)]="foodForm.mealType">
+            <option value="breakfast">Breakfast</option>
+            <option value="lunch">Lunch</option>
+            <option value="dinner">Dinner</option>
+          </select>
+        </div>
+
+        <div class="input-field">
+          <label>Food Group</label>
+          <input type="text" [(ngModel)]="foodForm.foodGroup" readonly />
+        </div>
+
+        <div class="input-field">
+          <label>Serving</label>
+          <input type="number" [(ngModel)]="foodForm.serving" />
+        </div>
+
+        <div class="btn-set--center">
+          <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+          <button class="btn btn-primary" (click)="addFood()">Save</button>
+        </div>
+      </div>
+
+      <!-- 🔸 Activity Form -->
+      <div *ngIf="activeTab === 'activity'">
+        <div class="input-field">
+          <label>Select Date</label>
+          <input type="date" [(ngModel)]="entryDate" />
+        </div>
+
+        <div class="input-field">
+          <label>Search Activity</label>
+          <input type="text" [(ngModel)]="activitySearchTerm" (input)="searchActivities()" />
+        </div>
+
+        <div class="input-field">
+          <label>Select Activity</label>
+          <select [(ngModel)]="activityForm.activityId" (change)="onActivityChange()">
+            <option *ngFor="let act of activityList" [value]="act._id">{{ act.activityName }}</option>
+          </select>
+        </div>
+
+        <div class="input-field">
+          <label>Description</label>
+          <textarea [(ngModel)]="activityForm.description"></textarea>
+        </div>
+
+        <div class="input-field">
+          <label>MET Value</label>
+          <input type="number" [(ngModel)]="activityForm.metValue" />
+        </div>
+
+        <div class="input-field">
+          <label>Duration (min)</label>
+          <input type="number" [(ngModel)]="activityForm.durationInMinutes" />
+        </div>
+
+        <div class="btn-set--center">
+          <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+          <button class="btn btn-primary" (click)="addActivity()">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer btn-set--center">
+      <button class="btn btn-primary" (click)="submitEntry()">Submit Entry</button>
+    </div>
+  </div>
+</div>
+

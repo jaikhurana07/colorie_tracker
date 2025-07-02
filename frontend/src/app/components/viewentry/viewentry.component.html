@@ -1,0 +1,119 @@
+<div class="mid-container" *ngIf="entry && user; else noDataTemplate">
+  <div class="container">
+    <!-- Title + Button -->
+    <div class="title-row">
+      <h1 class="title">{{ user.name }}</h1>
+      <div class="title-row-right">
+        <button class="btn-primary" (click)="openAddEntry(user._id)">Add Data</button>
+      </div>
+    </div>
+
+    <!-- Date Display -->
+    <div class="view-calorie-data">
+      <div class="view-calorie-data-date-input">
+        <div class="date-input">
+          <input type="date" [(ngModel)]="selectedDate" (change)="onDateChange()" />
+        </div>
+        <div class="show-selected-date">
+          Date : - {{ entry.date | date: 'M/d/yyyy' }}
+        </div>
+      </div>
+
+      <!-- Food Table -->
+      <div class="view-calorie-data-chart">
+        <div class="food-data white-card">
+          <h2>Food Data</h2>
+          <div class="food-data-table">
+            <table class="dcf-table dcf-table-responsive dcf-table-bordered dcf-table-striped dcf-w-100%">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Meal Type</th>
+                  <th>Food Group</th>
+                  <th>Serving</th>
+                  <th>Calorie In</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let f of entry.foods">
+                  <td>{{ entry.date | date: 'M/d/yyyy' }}</td>
+                  <td>{{ f.time }}</td>
+                  <td>{{ f.food.foodGroup || 'N/A' }}</td>
+                  <td>{{ f.portion }}</td>
+                  <td>{{ f.food.calories * f.portion }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Activity Table -->
+        <div class="activity-data white-card">
+          <h2>Activity Data</h2>
+          <div class="activity-data-table">
+            <table class="dcf-table dcf-table-responsive dcf-table-bordered dcf-table-striped dcf-w-100%">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>MET Value</th>
+                  <th>Duration</th>
+                  <th>Calorie Out</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let a of entry.activities">
+                  <td>{{ entry.date | date: 'M/d/yyyy' }}</td>
+                  <td>{{ a.activity.activityName }}</td>
+                  <td>{{ a.description || 'N/A' }}</td>
+                  <td>{{ a.activity.metValue }}</td>
+                  <td>{{ a.durationInMinutes }} min.</td>
+                  <td>
+                    {{
+                      (a.activity.metValue * user.weight * (a.durationInMinutes / 60))
+                        | number: '1.1-1'
+                    }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Net Calorie -->
+        <div class="net-calorie-data white-card">
+          <h2>Net Calorie</h2>
+          <div class="net-calorie-table">
+            <div class="net-calorie-row"><strong>BMR:</strong> <span>-{{ bmr }}</span></div>
+            <div class="net-calorie-row"><strong>Food:</strong> <span>+{{ caloriesIn }}</span></div>
+            <div class="net-calorie-row"><strong>Activity:</strong> <span>-{{ activityCaloriesOut }}</span></div>
+            <div class="net-calorie-row net-calorie-totl">
+              <strong>Net Calorie:</strong> <span>{{ netCalories }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ❌ No Data Template -->
+<ng-template #noDataTemplate>
+  <div class="container">
+    <div class="white-card no-entries">
+      <h2>No Entry Found</h2>
+      <p>⚠️ No data available for the selected date: {{ selectedDate | date:'M/d/yyyy' }}</p>
+    </div>
+  </div>
+</ng-template>
+
+<!-- ✅ Modal -->
+<div class="modal-overlay" *ngIf="showModal">
+  <app-add-entry-modal
+    [userId]="selectedUserId"
+    [show]="showModal"
+    (close)="closeModal()"
+    (entrySaved)="refreshData()"
+  ></app-add-entry-modal>
+</div>

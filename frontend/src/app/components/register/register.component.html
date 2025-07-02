@@ -1,0 +1,64 @@
+<div class="mid-container">
+  <div class="signup-container">
+    <div class="white-card">
+      <h1>Sign Up</h1>
+      <form (ngSubmit)="registerUser()" class="card-body">
+        <div class="input-field">
+          <label>Name</label>
+          <input
+            type="text"
+            [(ngModel)]="user.name"
+            name="name"
+            placeholder="Enter Name"
+            required
+          />
+        </div>
+
+        <div class="input-field">
+          <label>Weight</label>
+          <input
+            type="number"
+            [(ngModel)]="user.weight"
+            name="weight"
+            placeholder="Enter Weight"
+            required
+          />
+        </div>
+
+        <div class="input-field">
+          <label>Height</label>
+          <input
+            type="number"
+            [(ngModel)]="user.height"
+            name="height"
+            placeholder="Enter Height "
+            required
+          />
+        </div>
+
+        <div class="input-field">
+          <label>Gender</label>
+          <select class="selectbox" [(ngModel)]="user.gender" name="gender" required>
+            <option value="" disabled selected> Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+
+        <div class="input-field">
+          <label>Date of Birth</label>
+          <input
+            type="date"
+            [(ngModel)]="user.dob"
+            name="dob"
+            required
+          />
+        </div>
+
+        <div class="input-field btn-set--right">
+          <button type="submit" class="btn-primary">Sign Up</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,76 @@
+<div class="mid-container">
+  <div class="container user-all-date-data">
+    <!-- Title Row -->
+    <div class="title-row">
+      <h1 class="title">{{ user?.name }}</h1>
+      <div class="title-row-right">
+  <button class="btn-primary" (click)="openAddEntry(user?._id)">Add Data</button>
+
+      </div>
+    </div>
+
+    <!-- Date Input -->
+    <div class="date-input-card">
+      <div class="date-input">
+        <input
+          type="date"
+          class="date-input"
+          [(ngModel)]="date"
+          (change)="onDateChange()"
+        />
+      </div>
+    </div>
+
+    <!-- Data Table -->
+    <div class="user-list" *ngIf="filteredEntries && filteredEntries.length > 0">
+      <div class="white-card">
+        <h2>All Data</h2>
+        <table class="dcf-table dcf-table-responsive dcf-table-bordered dcf-table-striped dcf-w-100%">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>BMR</th>
+              <th>Calorie In</th>
+              <th>Calorie Out</th>
+              <th>Net Calorie</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let entry of filteredEntries">
+              <td>{{ entry.entry?.date | date: 'shortDate' }}</td>
+              <td>{{ entry.bmr | number: '1.0-0' }}</td>
+              <td>{{ entry.caloriesIn | number: '1.0-0' }}</td>
+              <td>{{ entry.activityCaloriesOut | number: '1.0-0' }}</td>
+              <td>{{ entry.netCalories | number: '1.0-0' }}</td>
+              <td>
+                <div class="btn-set">
+                  <button class="btn btn-secondary" (click)="viewEntry(entry.entry?.date)">
+                    View
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- No Entries Message -->
+    <div *ngIf="filteredEntries && filteredEntries.length === 0">
+      <div class="white-card no-entries">
+        <p>⚠️ No entries found for the selected date: {{ date | date: 'MMM d, y' }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" *ngIf="showModal">
+  <app-add-entry-modal
+    [userId]="selectedUserId"
+    [show]="showModal"
+    (close)="closeModal()"
+    (entrySaved)="refreshData()"
+  ></app-add-entry-modal>
+</div>
