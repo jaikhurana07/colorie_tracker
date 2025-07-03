@@ -100,6 +100,9 @@ getFoods(search: string = ''): Observable<any> {
   const params = new HttpParams().set('search', search);
   return this.http.get(`${this.apiUrl}/activities`, { params });
 }
+getMotionsByActivityId(activityId: string): Observable<any> {
+  return this.http.get(`${this.apiUrl}/activities/${activityId}/motions`);
+}
 
   // Entry APIs
   createOrUpdateEntry(data: any): Observable<any> {

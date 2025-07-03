@@ -77,31 +77,32 @@
           <input type="date" [(ngModel)]="entryDate" [max]="entryDate"/>
         </div>
 
-        <div class="input-field" style="position: relative;">
-          <label>Search & Select Activity</label>
-          <input
-            type="text"
-            [(ngModel)]="activitySearchTerm"
-            placeholder="Search activity..."
-            (input)="searchActivities()"
-            (focus)="showActivityDropdown = true"
-            (blur)="hideDropdownWithDelay('activity')"
-            autocomplete="off"
-          />
-          <ul
-            *ngIf="showActivityDropdown && activityList.length > 0"
-            class="dropdown-list"
-            style="position: absolute; top: 100%; left: 0; right: 0; max-height: 200px; overflow-y: auto; background: white; border: 1px solid #ccc; z-index: 1000;"
-          >
-            <li
-              *ngFor="let act of activityList"
-              (mousedown)="selectActivity(act)"
-              style="padding: 8px; cursor: pointer;"
-            >
-              {{ act.activityName }}
-            </li>
-          </ul>
-        </div>
+       <div class="input-field" style="position: relative;">
+  <label>Search & Select Activity</label>
+  <input
+    type="text"
+    [(ngModel)]="activitySearchTerm"
+    placeholder="Search activity..."
+    (input)="searchActivities()"
+    (focus)="showActivityDropdown = true"
+    (blur)="hideDropdownWithDelay('activity')"
+    autocomplete="off"
+  />
+  <ul
+    *ngIf="showActivityDropdown && activityList.length > 0"
+    class="dropdown-list"
+    style="position: absolute; top: 100%; left: 0; right: 0; max-height: 200px; overflow-y: auto; background: white; border: 1px solid #ccc; z-index: 1000;"
+  >
+    <li
+      *ngFor="let act of activityList"
+      (mousedown)="selectActivity(act)"
+      style="padding: 8px; cursor: pointer;"
+    >
+      {{ act.specificMotion }}
+    </li>
+  </ul>
+</div>
+
 
         <div class="input-field">
           <label>Description</label>

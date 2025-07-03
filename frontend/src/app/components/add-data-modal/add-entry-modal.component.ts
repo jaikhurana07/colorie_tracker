@@ -25,6 +25,8 @@ export class AddEntryModalComponent implements OnInit, OnChanges {
 
   foodList: any[] = [];
   activityList: any[] = [];
+  motionList: string[] = [];
+  showMotionDropdown: boolean = false;
 
   foodSearchTerm: string = '';
   activitySearchTerm: string = '';
@@ -44,6 +46,7 @@ export class AddEntryModalComponent implements OnInit, OnChanges {
     description: '',
     metValue: 1,
     durationInMinutes: 30,
+    specificMotion: '',
   };
 
   selectedFoods: any[] = [];
@@ -90,9 +93,24 @@ export class AddEntryModalComponent implements OnInit, OnChanges {
     this.activityForm.activityId = act._id;
     this.activityForm.description = act.description || '';
     this.activityForm.metValue = act.metValue || 1;
-    this.activitySearchTerm = act.activityName;
+    this.activitySearchTerm = act.specificMotion;
     this.showActivityDropdown = false;
+
+
+   this.api.getMotionsByActivityId(act._id).subscribe(res => {
+      console.log('Received motions:', res.data);
+    // res.data should be an array of objects with "specificMotion" and "metValue"
+    this.motionList = res.data || [];
+    this.showMotionDropdown = this.motionList.length > 0;
+  });
   }
+
+  selectSpecificMotion(motion: any) {
+  this.activityForm.description = motion.specificMotion;
+  this.activityForm.metValue = motion.metValue || 1;
+  this.showMotionDropdown = false;
+}
+
 
   hideDropdownWithDelay(type: 'food' | 'activity') {
     setTimeout(() => {
@@ -123,6 +141,8 @@ export class AddEntryModalComponent implements OnInit, OnChanges {
       description: '',
       metValue: 1,
       durationInMinutes: 30,
+      specificMotion: '',
+
     };
     this.activityList = [];
     this.activitySearchTerm = '';
@@ -172,6 +192,7 @@ export class AddEntryModalComponent implements OnInit, OnChanges {
       description: '',
       metValue: 1,
       durationInMinutes: 30,
+      specificMotion: '',
     };
     this.selectedFoods = [];
     this.selectedActivities = [];
