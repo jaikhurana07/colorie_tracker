@@ -29,6 +29,9 @@ export class AddEntryModalComponent implements OnInit, OnChanges {
   foodSearchTerm: string = '';
   activitySearchTerm: string = '';
 
+  showFoodDropdown: boolean = false;
+  showActivityDropdown: boolean = false;
+
   foodForm = {
     foodId: '',
     mealType: 'breakfast',
@@ -62,12 +65,9 @@ export class AddEntryModalComponent implements OnInit, OnChanges {
       return;
     }
     this.api.getFoods(this.foodSearchTerm).subscribe(data => {
-      console.log('Food search results:', data);
       this.foodList = data.data;
     });
   }
-
-  
 
   searchActivities() {
     if (this.activitySearchTerm.trim().length < 1) {
@@ -79,14 +79,26 @@ export class AddEntryModalComponent implements OnInit, OnChanges {
     });
   }
 
-  onFoodChange() {
-    const food = this.foodList.find(f => f._id === this.foodForm.foodId);
-    this.foodForm.foodGroup = food?.foodGroup || '';
+  selectFood(food: any) {
+    this.foodForm.foodId = food._id;
+    this.foodForm.foodGroup = food.foodGroup || '';
+    this.foodSearchTerm = food.name;
+    this.showFoodDropdown = false;
   }
 
-  onActivityChange() {
-    const act = this.activityList.find(a => a._id === this.activityForm.activityId);
-    this.activityForm.metValue = act?.metValue || 1;
+  selectActivity(act: any) {
+    this.activityForm.activityId = act._id;
+    this.activityForm.description = act.description || '';
+    this.activityForm.metValue = act.metValue || 1;
+    this.activitySearchTerm = act.activityName;
+    this.showActivityDropdown = false;
+  }
+
+  hideDropdownWithDelay(type: 'food' | 'activity') {
+    setTimeout(() => {
+      if (type === 'food') this.showFoodDropdown = false;
+      if (type === 'activity') this.showActivityDropdown = false;
+    }, 200);
   }
 
   addFood() {
@@ -100,6 +112,7 @@ export class AddEntryModalComponent implements OnInit, OnChanges {
     };
     this.foodList = [];
     this.foodSearchTerm = '';
+    this.showFoodDropdown = false;
   }
 
   addActivity() {
@@ -113,12 +126,12 @@ export class AddEntryModalComponent implements OnInit, OnChanges {
     };
     this.activityList = [];
     this.activitySearchTerm = '';
+    this.showActivityDropdown = false;
   }
 
   submitEntry() {
     const payload = {
       userId: this.userId,
-      
       date: this.entryDate,
       foods: this.selectedFoods.map(f => ({
         food: f.foodId,
@@ -133,7 +146,6 @@ export class AddEntryModalComponent implements OnInit, OnChanges {
         durationInMinutes: a.durationInMinutes,
       })),
     };
-   console.log('userId:', this.userId);
     this.api.createOrUpdateEntry(payload).subscribe(() => {
       alert('✅ Entry saved!');
       this.closeModal();
@@ -168,6 +180,7 @@ export class AddEntryModalComponent implements OnInit, OnChanges {
     this.activitySearchTerm = '';
     this.foodList = [];
     this.activityList = [];
+    this.showFoodDropdown = false;
+    this.showActivityDropdown = false;
   }
 }
-

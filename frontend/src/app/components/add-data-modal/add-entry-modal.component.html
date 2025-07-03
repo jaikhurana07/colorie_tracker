@@ -16,19 +16,33 @@
       <div *ngIf="activeTab === 'food'">
         <div class="input-field">
           <label>Select Date</label>
-          <input type="date" [(ngModel)]="entryDate" />
+          <input type="date" [(ngModel)]="entryDate" [max]="entryDate" />
         </div>
 
-        <div class="input-field">
-          <label>Search Food</label>
-          <input type="text" [(ngModel)]="foodSearchTerm" (input)="searchFoods()" />
-        </div>
-
-        <div class="input-field">
-          <label>Select Food</label>
-          <select [(ngModel)]="foodForm.foodId" (change)="onFoodChange()">
-            <option *ngFor="let food of foodList" [value]="food._id">{{ food.name }}</option>
-          </select>
+        <div class="input-field" style="position: relative;">
+          <label>Search & Select Food</label>
+          <input
+            type="text"
+            [(ngModel)]="foodSearchTerm"
+            placeholder="Search food..."
+            (input)="searchFoods()"
+            (focus)="showFoodDropdown = true"
+            (blur)="hideDropdownWithDelay('food')"
+            autocomplete="off"
+          />
+          <ul
+            *ngIf="showFoodDropdown && foodList.length > 0"
+            class="dropdown-list"
+            style="position: absolute; top: 100%; left: 0; right: 0; max-height: 200px; overflow-y: auto; background: white; border: 1px solid #ccc; z-index: 1000;"
+          >
+            <li
+              *ngFor="let food of foodList"
+              (mousedown)="selectFood(food)"
+              style="padding: 8px; cursor: pointer;"
+            >
+              {{ food.name }}
+            </li>
+          </ul>
         </div>
 
         <div class="input-field">
@@ -60,19 +74,33 @@
       <div *ngIf="activeTab === 'activity'">
         <div class="input-field">
           <label>Select Date</label>
-          <input type="date" [(ngModel)]="entryDate" />
+          <input type="date" [(ngModel)]="entryDate" [max]="entryDate"/>
         </div>
 
-        <div class="input-field">
-          <label>Search Activity</label>
-          <input type="text" [(ngModel)]="activitySearchTerm" (input)="searchActivities()" />
-        </div>
-
-        <div class="input-field">
-          <label>Select Activity</label>
-          <select [(ngModel)]="activityForm.activityId" (change)="onActivityChange()">
-            <option *ngFor="let act of activityList" [value]="act._id">{{ act.activityName }}</option>
-          </select>
+        <div class="input-field" style="position: relative;">
+          <label>Search & Select Activity</label>
+          <input
+            type="text"
+            [(ngModel)]="activitySearchTerm"
+            placeholder="Search activity..."
+            (input)="searchActivities()"
+            (focus)="showActivityDropdown = true"
+            (blur)="hideDropdownWithDelay('activity')"
+            autocomplete="off"
+          />
+          <ul
+            *ngIf="showActivityDropdown && activityList.length > 0"
+            class="dropdown-list"
+            style="position: absolute; top: 100%; left: 0; right: 0; max-height: 200px; overflow-y: auto; background: white; border: 1px solid #ccc; z-index: 1000;"
+          >
+            <li
+              *ngFor="let act of activityList"
+              (mousedown)="selectActivity(act)"
+              style="padding: 8px; cursor: pointer;"
+            >
+              {{ act.activityName }}
+            </li>
+          </ul>
         </div>
 
         <div class="input-field">
@@ -102,4 +130,3 @@
     </div>
   </div>
 </div>
-
